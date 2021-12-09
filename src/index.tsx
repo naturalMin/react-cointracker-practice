@@ -5,7 +5,7 @@ import { ThemeProvider } from "styled-components";
 import { theme } from "./theme";
 import { QueryClient, QueryClientProvider } from 'react-query'
 
-const queryClient = new QueryClient;
+const queryClient = new QueryClient();
 
 ReactDOM.render(
   <React.StrictMode>

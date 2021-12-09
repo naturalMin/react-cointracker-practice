@@ -24,6 +24,7 @@ const Coin = styled.li`
   a {
     display: block;
     text-align: center;
+    font-size: 20px;    
   }
   &:hover {
     color: ${props => props.theme.accentColor};
@@ -34,6 +35,11 @@ const Coin = styled.li`
 const Title = styled.h1`
   color: ${props => props.theme.textColor};
   font-size: 50px;
+`;
+const Img = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
 `;
 //coins api type
 interface Icoins {
@@ -63,6 +69,7 @@ function Coins () {
                   name: coin.name
                   }
                 }}>
+              <Img src = {`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} />
               {coin.name}
             </Link>
           </Coin> )}        
