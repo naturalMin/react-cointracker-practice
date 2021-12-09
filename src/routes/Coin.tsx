@@ -5,6 +5,7 @@ import Price from "./Price";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import { useQuery } from "react-query";
+import { Helmet } from "react-helmet";
 
 //css
 const Container = styled.div`
@@ -142,12 +143,19 @@ function Coin() {
   const {isLoading: infoLoading, data: infoData} = useQuery<InfoData>
   (["info", coinId], () => fetchCoinInfo(coinId));
   const {isLoading: tickersLoading, data: tickerData} = useQuery<PriceData>(
-    ["tickers", coinId], () => fetchCoinTickers(coinId)
+    ["tickers", coinId], () => fetchCoinTickers(coinId), {
+      refetchInterval: 5000,
+    }
   );
   //fetch작업
+  //2개의 api호출 - 동일한 coinId가 매개, 구분을 위해 배열 첫번째 key로 설정
+  //js syntax를 통해 return값을 가져옴 ex. infoData, tickerData
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
+      <Helmet>
+        <title>{state?.name ? state.name : loading? "Loading..." : infoData?.name}</title>
+      </Helmet>
       <Header>
         <Title>{state?.name ? state.name : loading? "Loading..." : infoData?.name}</Title>
         {/* inline 조건문의 중첩문 */}
@@ -166,7 +174,7 @@ function Coin() {
           </OverviewItem>
           <OverviewItem>
             <span>price: </span>
-            <span></span>            
+            <span>{tickerData?.quotes.USD.price.toFixed(3)}</span>            
           </OverviewItem>
         </Overview>
         <Description>
@@ -196,7 +204,7 @@ function Coin() {
             <Price />
           </Route>
           <Route path= {`/:coinId/chart`}>
-            <Chart />
+            <Chart coinId = {coinId} />
           </Route>
         </Switch>
       </>
