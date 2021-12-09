@@ -1,7 +1,9 @@
 import Router from "./Router";
-import { createGlobalStyle } from "styled-components";
+import { ThemeProvider, createGlobalStyle } from "styled-components";
 //Reset.css component
 import { ReactQueryDevtools } from "react-query/devtools"
+import { darkTheme, lightTheme } from "./theme";
+import { useState } from "react";
 
 const GlobalStyle  = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
@@ -65,14 +67,25 @@ const GlobalStyle  = createGlobalStyle`
     text-decoration: none;
     color: inherit;
   }
+  button {
+    border: 0px;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: ${(props) => props.theme.accentColor};    
+  }
 `;
 
 function App() {
+  const [isDark, setIsDark] = useState(false);
+  const toggleDark = () => setIsDark(current => !current);
   return (
     <>
-      <GlobalStyle />
-      <Router />
-      <ReactQueryDevtools initialIsOpen = {true} />
+      <ThemeProvider theme = {isDark? darkTheme : lightTheme}>
+        <button onClick = {toggleDark}>{isDark? "Light mode" : "Dark mode"}</button>
+        <GlobalStyle />
+        <Router />
+        <ReactQueryDevtools initialIsOpen = {true} />
+      </ThemeProvider>      
     </>
   );
 }

@@ -2,7 +2,6 @@ import { useParams, useLocation, Switch, Route, useRouteMatch } from "react-rout
 import { Link } from "react-router-dom";
 import Chart from "./Chart";
 import Price from "./Price";
-import Coins from "./Coins";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import { useQuery } from "react-query";
@@ -31,7 +30,7 @@ const Loader = styled.div`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: #2d34366e;
+  background-color: #dfe6e975;
   padding: 10px 20px;
   border-radius: 10px; 
 `;
@@ -60,11 +59,11 @@ const Tab = styled.span<{isActive : boolean}>`
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 400;
-  background-color: #2d34366e;
+  color: ${props => props.theme.textColor};
   padding: 7px 0px;
   border-radius: 10px;
-  color: ${props => props.isActive ?
-    props.theme.accentColor : props.theme.textColor};
+  background-color: ${props => props.isActive ?
+    props.theme.accentColor : `#dfe6e975`};
   a {
     display: block;
   }
@@ -73,12 +72,12 @@ const Back = styled.div`
   text-align: center;
   font-size: 12px;
   width: 50px;  
-  background-color: #fdcb6e;
+  background-color: ${props=> props.theme.accentColor};
   border-radius: 10px;
   margin-top: 5px;
   padding: 7px 10px;  
   a {
-    color: ${props=> props.theme.bgColor};
+    color: ${props=> props.theme.textColor};
     display: block;
   }
 `;
@@ -179,8 +178,8 @@ function Coin() {
         {/* state.name (항상 state가 존재해야함) // ?. -> 존재할 때만 */}
       </Header>
       
-      {loading? <Loader>loading...</Loader> : null}
-      <>
+      {loading? <Loader>loading...</Loader> : 
+        <>
         <Overview>
           <OverviewItem>
             <span>Rank: </span>
@@ -192,7 +191,7 @@ function Coin() {
           </OverviewItem>
           <OverviewItem>
             <span>price: </span>
-            <span>{tickerData?.quotes.USD.price.toFixed(3)}</span>            
+            <span>${tickerData?.quotes.USD.price.toFixed(2)}</span>            
           </OverviewItem>
         </Overview>
         <Description>
@@ -226,6 +225,7 @@ function Coin() {
           </Route>
         </Switch>
       </>
+      }      
     </Container>    
   );
 }

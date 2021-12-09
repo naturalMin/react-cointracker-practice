@@ -37,6 +37,10 @@ const Title = styled.h1`
   color: ${props => props.theme.textColor};
   font-size: 50px;
 `;
+const Loader = styled.div`
+  text-align: center;
+  display: block;
+`;
 const Img = styled.img`
   width: 20px;
   height: 20px;
@@ -63,7 +67,7 @@ function Coins () {
       <Header>
         <Title>Coins</Title>
       </Header>
-      {isLoading ? "Loading..." : 
+      {isLoading ? <Loader>Loading...</Loader> : 
         (<CoinsList>
           {data?.slice(0, 50).map(coin => 
           <Coin key = {coin.id} >
