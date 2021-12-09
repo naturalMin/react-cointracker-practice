@@ -4,14 +4,14 @@ import Coins from "./routes/Coins";
 
 function Router() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Switch>
         {/* 각 코인들 상세페이지 routing */}
         <Route path = "/:coinId">
           <Coin />
         </Route>
         {/* 코인 top 50 list routing */}
-        <Route path = {process.env.PUBLIC_URL + "/"}>
+        <Route path = "/">
           <Coins />
         </Route> 
       </Switch>
