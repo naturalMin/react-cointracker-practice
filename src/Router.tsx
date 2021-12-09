@@ -11,9 +11,9 @@ function Router() {
           <Coin />
         </Route>
         {/* 코인 top 50 list routing */}
-        <Route path = "/">
+        <Route path = {process.env.PUBLIC_URL + "/"}>
           <Coins />
-        </Route>
+        </Route> 
       </Switch>
     </BrowserRouter>
   );
