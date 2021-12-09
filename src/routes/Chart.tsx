@@ -2,6 +2,7 @@ import { fetchCoinHistory } from "../api";
 import { useQuery } from "react-query";
 import ApexChart from "react-apexcharts";
 
+
 //type
 interface ChartProps {
   coinId: string;
@@ -26,16 +27,18 @@ function Chart({ coinId }: ChartProps) {
   <div>    
     { isLoading ? "Loading chart..." : (
       < ApexChart 
-      type = "line"
+      type = "candlestick"
       series = {[
-        {
-          name: "Price",
-          data: data?.map(price => price.close),
+        {          
+          data: data?.map(price => ({
+            x: price.time_close,
+            y: [price.open, price.high, price.low, price.close],
+          })),
         },          
       ]}
       options = {{
         theme: {
-          mode: "dark",
+          mode: "dark" ,
         },         
         chart: {
           height: 300,
@@ -44,38 +47,28 @@ function Chart({ coinId }: ChartProps) {
             show: false,
           },
           background: "transparant"
-        },
-        stroke: {
-          curve: "smooth",
-          width: 5,
-        },
+        },              
         grid: {
-          show: false,
-        },
+          show: true,
+        },      
         xaxis: {
-          axisBorder: {show: false},
-          axisTicks: {show: false},
-          labels: {show: false},
+          axisBorder: {show: true},
+          axisTicks: {show: true},
+          labels: {            
+            style: { colors: "#2d3436",}
+          },
           type: "datetime",
           categories: data?.map(price => price.time_close)
         },
         yaxis: {
-          show: false,
-        },
-        fill: { 
-          type: "gradient", 
-          gradient: {
-            type: "horizontal",
-            gradientToColors: ["#0be881"],
-            stops: [0, 100],              
-          },
-        },
-        colors: ["#0fbcf9"],
-        tooltip: {
-          y: {
-            formatter: (value) => `$ ${value.toFixed(2)}`,//처음 $ -> 통화 기호
-          },
-        }
+          show: true,          
+          labels: {
+            style: { colors: "#2d3436",},            
+            formatter: (val) => {
+              return val.toFixed(0);
+            }
+          }
+        },    
       }}
       />
       )}
