@@ -2,6 +2,7 @@ import { useParams, useLocation, Switch, Route, useRouteMatch } from "react-rout
 import { Link } from "react-router-dom";
 import Chart from "./Chart";
 import Price from "./Price";
+import Coins from "./Coins";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import { useQuery } from "react-query";
@@ -65,6 +66,19 @@ const Tab = styled.span<{isActive : boolean}>`
   color: ${props => props.isActive ?
     props.theme.accentColor : props.theme.textColor};
   a {
+    display: block;
+  }
+`;
+const Back = styled.div`
+  text-align: center;
+  font-size: 12px;
+  width: 50px;  
+  background-color: #fdcb6e;
+  border-radius: 10px;
+  margin-top: 5px;
+  padding: 7px 10px;  
+  a {
+    color: ${props=> props.theme.bgColor};
     display: block;
   }
 `;
@@ -153,14 +167,18 @@ function Coin() {
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
+      <Back>
+          <Link to = "/">Back</Link>
+      </Back>
       <Helmet>
         <title>{state?.name ? state.name : loading? "Loading..." : infoData?.name}</title>
       </Helmet>
-      <Header>
+      <Header>                
         <Title>{state?.name ? state.name : loading? "Loading..." : infoData?.name}</Title>
         {/* inline 조건문의 중첩문 */}
         {/* state.name (항상 state가 존재해야함) // ?. -> 존재할 때만 */}
       </Header>
+      
       {loading? <Loader>loading...</Loader> : null}
       <>
         <Overview>
@@ -199,7 +217,7 @@ function Coin() {
           </Tab>
         </Tabs>
         {/* Routing */}
-        <Switch>
+        <Switch>          
           <Route path= {`/:coinId/price`}>
             <Price />
           </Route>
