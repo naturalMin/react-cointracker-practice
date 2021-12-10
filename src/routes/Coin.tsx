@@ -74,7 +74,7 @@ const Back = styled.div`
   width: 50px;  
   background-color: ${props=> props.theme.accentColor};
   border-radius: 10px;
-  margin-top: 5px;
+  margin-top: 10px;
   padding: 7px 10px;  
   a {
     color: ${props=> props.theme.textColor};
@@ -191,7 +191,7 @@ function Coin() {
           </OverviewItem>
           <OverviewItem>
             <span>price: </span>
-            <span>${tickerData?.quotes.USD.price.toFixed(2)}</span>            
+            <span>${tickerData?.quotes.USD.price.toFixed(3)}</span>            
           </OverviewItem>
         </Overview>
         <Description>

@@ -133,6 +133,14 @@ function Price() {
                 </Text>
               </Value>
             </PriceList>
+            <PriceList>
+              <Label>Percent change (1year)</Label>
+              <Value>
+                <Text isPositive = {PlusMinus(data?.quotes.USD.percent_change_1y) === true }>
+                  {data?.quotes.USD.percent_change_1y}%
+                </Text>
+              </Value>
+            </PriceList>
           </PriceContainer>        
         )
       }

@@ -3,7 +3,9 @@ import { ThemeProvider, createGlobalStyle } from "styled-components";
 //Reset.css component
 import { ReactQueryDevtools } from "react-query/devtools"
 import { darkTheme, lightTheme } from "./theme";
-import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./routes/atoms";
+import { useSetRecoilState } from "recoil";
 
 const GlobalStyle  = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
@@ -67,21 +69,30 @@ const GlobalStyle  = createGlobalStyle`
     text-decoration: none;
     color: inherit;
   }
-  button {
+  .sidebar {
+    padding: 0 20px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  button {  
     border: 0px;
     border-radius: 10px;
     padding: 5px;
-    background-color: ${(props) => props.theme.accentColor};    
+    background-color: ${(props) => props.theme.accentColor};
+    color: ${(props) => props.theme.textColor};     
   }
 `;
 
 function App() {
-  const [isDark, setIsDark] = useState(false);
-  const toggleDark = () => setIsDark(current => !current);
+  const isDark = useRecoilValue(isDarkAtom);
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom(prev => !prev); 
   return (
     <>
       <ThemeProvider theme = {isDark? darkTheme : lightTheme}>
-        <button onClick = {toggleDark}>{isDark? "Light mode" : "Dark mode"}</button>
+        <div className = "sidebar">
+          <button onClick = {toggleDarkAtom}>{isDark? "Light mode" : "Dark mode"}</button>
+        </div>
         <GlobalStyle />
         <Router />
         <ReactQueryDevtools initialIsOpen = {true} />
